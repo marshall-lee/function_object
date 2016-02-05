@@ -11,5 +11,9 @@ class FunctionObject
       singleton_class.class_eval { include macro.sclass_mixin }
     end
     alias_method :args, :arguments
+
+    def to_proc
+      method(:call).to_proc
+    end
   end
 end

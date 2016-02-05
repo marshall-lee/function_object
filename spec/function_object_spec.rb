@@ -48,4 +48,18 @@ describe FunctionObject do
       expect(func.(1, 333)).to eq '1_333'
     end
   end
+
+  describe '.to_proc' do
+    subject { plus.to_proc }
+
+    it 'returns a Proc instance' do
+      should be_kind_of Proc
+    end
+
+    describe '#call' do
+      it 'returns a functional call value' do
+        expect(subject.(1,2)).to eq 3
+      end
+    end
+  end
 end
