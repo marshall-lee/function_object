@@ -11,7 +11,9 @@ class FunctionObject::Macro
     Module.new.tap do |mixin|
       arg_descs_with_defaults.each do |desc|
         mixin.module_eval do
-          private define_method("_default_#{desc.name}", &desc.default)
+          name = "_default_#{desc.name}"
+          define_method(name, &desc.default)
+          private name
         end
       end
 
