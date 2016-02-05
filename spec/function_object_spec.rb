@@ -61,5 +61,16 @@ describe FunctionObject do
         expect(subject.(1,2)).to eq 3
       end
     end
+
+    describe 'passing as a block' do
+      it 'can be called using yield' do
+        ret = Module.new do
+          def self.call
+            4 + (yield 1, 2)
+          end
+        end.(&plus)
+        expect(ret).to eq 7
+      end
+    end
   end
 end
