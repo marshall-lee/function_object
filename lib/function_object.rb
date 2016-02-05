@@ -12,8 +12,15 @@ class FunctionObject
     end
     alias_method :args, :arguments
 
+    def call
+      new.call
+    end
+
     def to_proc
       method(:call).to_proc
     end
+  end
+
+  def call
   end
 end

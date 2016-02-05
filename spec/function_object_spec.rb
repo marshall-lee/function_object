@@ -14,6 +14,19 @@ describe FunctionObject do
     end
   end
 
+  let(:constant) do
+    def_function do
+      def call
+        :hello
+      end
+    end
+  end
+
+  let(:void) do
+    def_function do
+    end
+  end
+
   it 'does something useful' do
     expect(plus.(1,2)).to eq 3
   end
@@ -70,6 +83,30 @@ describe FunctionObject do
           end
         end.(&plus)
         expect(ret).to eq 7
+      end
+    end
+  end
+
+  describe 'function object without arguments' do
+    context 'which does not implement instance method #call' do
+      subject { void }
+      it { should respond_to :call }
+
+      describe '.call' do
+        it 'should return nil' do
+          expect(subject.()).to eq nil
+        end
+      end
+    end
+
+    context 'which implements instance method #call' do
+      subject { constant }
+      it { should respond_to :call }
+
+      describe '.call' do
+        it 'should return a value of calling instance method #call' do
+          expect(subject.()).to eq :hello
+        end
       end
     end
   end
