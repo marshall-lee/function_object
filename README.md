@@ -1,10 +1,10 @@
 # function_object
 [![Build Status](https://travis-ci.org/marshall-lee/function_object.svg?branch=master)](https://travis-ci.org/marshall-lee/function_object)
 
-`FunctionObject` solves a problem of complex² callable¹ objects.
+`FunctionObject` solves a problem of **complex**² **callable**¹ objects.
 
-1. By *callable* I mean something that `respond_to? :call`. `lambda` and `proc` in Ruby are examples of callable objects.
-2. By *complex* I mean something that requires sub-expressions. In other words, *complex* is when you need to express your `call` method in terms of other (private) methods. In other words, *complex* is when you need `def` inside your lambda or/and need to extract it to separate unit. *(So, the explanation of what is complex gone complex too :)*
+1. By **callable** I mean something that `respond_to? :call`. `lambda` and `proc` in Ruby are examples of callable objects.
+2. By **complex** I mean something that requires sub-expressions. In other words, *complex* is when you need to express your `call` method in terms of other (private) methods. In other words, *complex* is when you need `def` inside your lambda or/and need to extract it to separate unit. *(So, the explanation of what is complex gone complex too :)*
 
 ## Installation
 
