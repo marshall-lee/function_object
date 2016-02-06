@@ -1,9 +1,10 @@
-# FunctionObject
+# function_object
 [![Build Status](https://travis-ci.org/marshall-lee/function_object.svg?branch=master)](https://travis-ci.org/marshall-lee/function_object)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/function_object`. To experiment with that code, run `bin/console` for an interactive prompt.
+`FunctionObject` solves a problem of complex² callable¹ objects.
 
-TODO: Delete this and the text above, and describe your gem
+1. By *callable* I mean something that `respond_to? :call`. `lambda` and `proc` in Ruby are examples of callable objects.
+2. By *complex* I mean something that requires sub-expressions. In other words, *complex* is when you need to express your `call` method in terms of other (private) methods. In other words, *complex* is when you need `def` inside your lambda or/and need to extract it to separate unit. *(So, the explanation of what is complex gone complex too :)*
 
 ## Installation
 
@@ -23,7 +24,24 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+class Plus < FunctionObject
+  args do
+    arg :a
+    arg :b
+  end
+
+  def call
+    a + b
+  end
+end
+
+Plus.call(1,2) # => 3
+Plus.(1,2) # => 3
+
+plus = Plus.new(1,2) # => #<Plus:0x00000002115e48 @a=1, @b=2>
+plus.(1,2) # => 3
+```
 
 ## Development
 
