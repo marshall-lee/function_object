@@ -36,7 +36,7 @@ describe FunctionObject do
       it 'raises ArgumentError' do
         expect {
           plus.(1)
-        }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 2)')
+        }.to raise_error(ArgumentError, /wrong number of arguments .*1.*2/)
       end
     end
 
@@ -44,7 +44,7 @@ describe FunctionObject do
       it 'raises ArgumentError' do
         expect {
           plus.(1,2,3)
-        }.to raise_error(ArgumentError, 'wrong number of arguments (given 3, expected 2)')
+        }.to raise_error(ArgumentError, /wrong number of arguments .*3.*2/)
       end
     end
   end
@@ -226,7 +226,7 @@ describe FunctionObject do
         it 'raises ArgumentError' do
           expect {
             func.curry.(1)
-          }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 0)')
+          }.to raise_error(ArgumentError, /wrong number of arguments .*1.*0/)
         end
       end
 
