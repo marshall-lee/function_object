@@ -46,6 +46,32 @@ Plus.curry.(1).(2) # => 3
 Plus.curry.(1,2) # => 3
 ```
 
+Or you can create this object even simpler:
+
+```ruby
+class Plus < FunctionObject
+  args :a, :b
+
+  def call
+    a + b
+  end
+end
+```
+
+And mix these methods:
+
+```ruby
+class Plus < FunctionObject
+  args :a do
+    arg :b
+  end
+
+  def call
+    a + b
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
