@@ -12,8 +12,9 @@ class FunctionObject::ArgumentsBuilder
     end
   end
 
-  def initialize
+  def initialize(args)
     @descriptors = []
+    arguments(args)
   end
 
   def build(&block)
@@ -26,4 +27,10 @@ class FunctionObject::ArgumentsBuilder
     @descriptors << Descriptor.new(name, default, options)
   end
   alias_method :arg, :argument
+
+  private
+
+  def arguments(args)
+    args.each { |name| argument(name) }
+  end
 end
