@@ -27,15 +27,25 @@ describe FunctionObject do
     end
   end
 
-  it 'does something useful' do
-    expect(plus.(1,2)).to eq 3
-  end
+  describe '.call' do
+    it 'does something useful' do
+      expect(plus.(1,2)).to eq 3
+    end
 
-  context 'when arguments are insufficient' do
-    it 'raises ArgumentError' do
-      expect {
-        plus.(1)
-      }.to raise_error(ArgumentError)
+    context 'with missing arguments ' do
+      it 'raises ArgumentError' do
+        expect {
+          plus.(1)
+        }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 2)')
+      end
+    end
+
+    context 'with extra arguments' do
+      it 'raises ArgumentError' do
+        expect {
+          plus.(1,2,3)
+        }.to raise_error(ArgumentError, 'wrong number of arguments (given 3, expected 2)')
+      end
     end
   end
 
@@ -107,6 +117,129 @@ describe FunctionObject do
         it 'should return a value of calling instance method #call' do
           expect(subject.()).to eq :hello
         end
+      end
+    end
+  end
+
+  describe '.curry' do
+    let(:curried) { plus.curry }
+    subject { curried }
+
+    it 'returns a callable object' do
+      should respond_to :call
+    end
+
+    context 'with one argument bound' do
+      let(:one_plus) { curried.(1) }
+      subject { one_plus }
+
+      it 'is still a callable object' do
+        should respond_to :call
+      end
+
+      context 'when called with the rest of arguments' do
+        subject { one_plus.(2) }
+
+        it 'returns a value of function' do
+          should eq 3
+        end
+      end
+    end
+
+    it 'allows to specify arity' do
+      curried = plus.curry(2)
+      expect(curried.(1,2)).to eq 3
+      expect(curried.(2).(1)).to eq 3
+    end
+
+    it 'denies to curry with too small arity' do
+      expect { plus.curry(0) }.to raise_error(ArgumentError, 'wrong number of arguments (given 0, expected 2)')
+      expect { plus.curry(1) }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 2)')
+    end
+
+    it 'denies to curry with too big arity' do
+      expect { plus.curry(3) }.to raise_error(ArgumentError, 'wrong number of arguments (given 3, expected 2)')
+    end
+
+    context 'function with optional arguments' do
+      let(:func) do
+        def_function do
+          args {
+            arg :x
+            arg :y
+            arg :s, default: -> { 3 }
+            arg :t, default: -> { 4 }
+          }
+          def call
+            [x,y,s,t]
+          end
+        end
+      end
+
+      it 'curries mandatoy arguments by default' do
+        expect(func.curry.(2).(1)).to eq [2,1,3,4]
+        expect(func.curry.(2,1)).to eq [2,1,3,4]
+      end
+
+      context 'with extra arguments' do
+        it 'raises ArgumentError' do
+          expect {
+            func.curry.(1,2,3,4,5)
+          }.to raise_error(ArgumentError, 'wrong number of arguments (given 5, expected 2..4)')
+        end
+      end
+
+      it 'allows to curry mandatory arguments' do
+        expect(func.curry(2).(1,2)).to eq [1,2,3,4]
+        expect(func.curry(2).(1).(2)).to eq [1,2,3,4]
+      end
+
+      it 'allows to curry optional arguments' do
+        expect(func.curry(3).(1,2,5)).to eq [1,2,5,4]
+        expect(func.curry(3).(1,2).(5)).to eq [1,2,5,4]
+        expect(func.curry(3).(1).(2).(5)).to eq [1,2,5,4]
+        expect(func.curry(4).(1,2,5).(6)).to eq [1,2,5,6]
+        expect(func.curry(4).(1,2).(5).(6)).to eq [1,2,5,6]
+        expect(func.curry(4).(1).(2).(5).(6)).to eq [1,2,5,6]
+      end
+
+      it 'denies to curry with too small arity' do
+        expect { func.curry(0) }.to raise_error(ArgumentError, 'wrong number of arguments (given 0, expected 2..4)')
+        expect { func.curry(1) }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 2..4)')
+      end
+
+      it 'denies to curry with too big arity' do
+        expect { func.curry(5) }.to raise_error(ArgumentError, 'wrong number of arguments (given 5, expected 2..4)')
+      end
+    end
+
+    context 'function with no arguments' do
+      let(:func) do
+        def_function do
+          def call
+            123
+          end
+        end
+      end
+
+      context 'with extra arguments' do
+        it 'raises ArgumentError' do
+          expect {
+            func.curry.(1)
+          }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 0)')
+        end
+      end
+
+      it 'allows to curry without arguments' do
+        expect(func.curry.()).to eq(123)
+      end
+
+      it 'allows to curry with zero arguments' do
+        expect(func.curry(0).()).to eq(123)
+      end
+
+      it 'denies to curry with too big arity' do
+        expect { func.curry(1).() }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 0)')
       end
     end
   end

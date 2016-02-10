@@ -2,6 +2,7 @@ class FunctionObject
   require 'function_object/version'
   require 'function_object/arguments_builder'
   require 'function_object/macro'
+  require 'function_object/curry'
 
   class << self
     def arguments(&block)
@@ -18,6 +19,14 @@ class FunctionObject
 
     def to_proc
       method(:call).to_proc
+    end
+
+    def curry(arity = 0)
+      unless arity == 0
+        raise ArgumentError,
+              "wrong number of arguments (given #{arity}, expected 0)"
+      end
+      self
     end
   end
 
