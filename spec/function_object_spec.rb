@@ -153,12 +153,12 @@ describe FunctionObject do
     end
 
     it 'denies to curry with too small arity' do
-      expect { plus.curry(0) }.to raise_error(ArgumentError, /wrong number of arguments .*0 .* 2/)
-      expect { plus.curry(1) }.to raise_error(ArgumentError, /wrong number of arguments .*1 .* 2/)
+      expect { plus.curry(0) }.to raise_error(ArgumentError, /wrong number of arguments .*0.*2/)
+      expect { plus.curry(1) }.to raise_error(ArgumentError, /wrong number of arguments .*1.*2/)
     end
 
     it 'denies to curry with too big arity' do
-      expect { plus.curry(3) }.to raise_error(ArgumentError, /wrong number of arguments .*3 .* 2/)
+      expect { plus.curry(3) }.to raise_error(ArgumentError, /wrong number of arguments .*3.*2/)
     end
 
     context 'function with optional arguments' do
@@ -185,7 +185,7 @@ describe FunctionObject do
         it 'raises ArgumentError' do
           expect {
             func.curry.(1,2,3,4,5)
-          }.to raise_error(ArgumentError, /wrong number of arguments .*5 .* 2\.\.4/)
+          }.to raise_error(ArgumentError, /wrong number of arguments .*5.*2\.\.4/)
         end
       end
 
@@ -204,12 +204,12 @@ describe FunctionObject do
       end
 
       it 'denies to curry with too small arity' do
-        expect { func.curry(0) }.to raise_error(ArgumentError, /wrong number of arguments .*0 .* 2..4/)
-        expect { func.curry(1) }.to raise_error(ArgumentError, /wrong number of arguments .*1 .* 2..4/)
+        expect { func.curry(0) }.to raise_error(ArgumentError, /wrong number of arguments .*0.*2\.\.4/)
+        expect { func.curry(1) }.to raise_error(ArgumentError, /wrong number of arguments .*1.*2\.\.4/)
       end
 
       it 'denies to curry with too big arity' do
-        expect { func.curry(5) }.to raise_error(ArgumentError, /wrong number of arguments .*5 .* 2..4/)
+        expect { func.curry(5) }.to raise_error(ArgumentError, /wrong number of arguments .*5.*2\.\.4/)
       end
     end
 
