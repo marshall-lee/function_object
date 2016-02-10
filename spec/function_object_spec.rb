@@ -27,9 +27,35 @@ describe FunctionObject do
     end
   end
 
+  let(:simple) do
+    def_function do
+      args :a, :b
+
+      def call
+        a + b
+      end
+    end
+  end
+
+  let(:duplicating) do
+    def_function do
+      args :a do
+        arg :a
+      end
+    end
+  end
+
   describe '.call' do
     it 'does something useful' do
       expect(plus.(1,2)).to eq 3
+    end
+
+    it 'even with simple argument list' do
+      expect(simple.(1,2)).to eq 3
+    end
+
+    it 'duplicating arguments raises error' do
+        expect { duplicating }.to raise_error(SyntaxError, /duplicated argument name/)
     end
 
     context 'with missing arguments ' do

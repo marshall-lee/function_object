@@ -5,8 +5,10 @@ class FunctionObject
   require 'function_object/curry'
 
   class << self
-    def arguments(&block)
-      arg_descs = ArgumentsBuilder.new.build(&block)
+    def arguments(*simple_args, &block)
+      arg_builder = ArgumentsBuilder.new
+      simple_args.each { |name| arg_builder.argument(name) }
+      arg_descs = arg_builder.build(&block)
       macro = Macro.new(arg_descs)
       self.class_eval { include macro.class_mixin }
       singleton_class.class_eval { include macro.sclass_mixin }
