@@ -46,7 +46,7 @@ Plus.curry.(1).(2) # => 3
 Plus.curry.(1,2) # => 3
 ```
 
-Or you can create this object even simpler:
+Or you can define it even simpler:
 
 ```ruby
 class Plus < FunctionObject
