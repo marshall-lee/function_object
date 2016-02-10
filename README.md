@@ -40,7 +40,10 @@ Plus.call(1,2) # => 3
 Plus.(1,2) # => 3
 
 plus = Plus.new(1,2) # => #<Plus:0x00000002115e48 @a=1, @b=2>
-plus.(1,2) # => 3
+plus.() # => 3
+
+Plus.curry.(1).(2) # => 3
+Plus.curry.(1,2) # => 3
 ```
 
 ## Development
