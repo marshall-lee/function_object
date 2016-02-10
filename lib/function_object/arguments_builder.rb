@@ -12,9 +12,12 @@ class FunctionObject::ArgumentsBuilder
     end
   end
 
-  def build(&block)
+  def initialize
     @descriptors = []
-    instance_exec(&block)
+  end
+
+  def build(&block)
+    instance_exec(&block) if block
     @descriptors
   end
 
