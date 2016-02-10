@@ -83,10 +83,17 @@ class FunctionObject::Macro
   end
 
   def raise_arity_condition_error_stmt(given)
-    <<-RUBY
-      raise ArgumentError,
-            "wrong number of arguments (given \#{#{given}}, expected #{arity_range_condition})"
-    RUBY
+    if RUBY_VERSION >= '2.3.0'
+      <<-RUBY
+        raise ArgumentError,
+              "wrong number of arguments (given \#{#{given}}, expected #{arity_range_condition})"
+      RUBY
+    else
+      <<-RUBY
+        raise ArgumentError,
+              "wrong number of arguments (\#{#{given}} for #{arity_range_condition})"
+      RUBY
+    end
   end
 
   attr_reader :arg_descs,
