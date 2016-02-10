@@ -55,9 +55,7 @@ describe FunctionObject do
     end
 
     it 'duplicating arguments raises error' do
-        expect {
-          duplicating.(1)
-        }.to raise_error(SyntaxError, /duplicated argument name/)
+        expect { duplicating }.to raise_error(SyntaxError, /duplicated argument name/)
     end
 
     context 'with missing arguments ' do
