@@ -242,5 +242,28 @@ describe FunctionObject do
         expect { func.curry(1).() }.to raise_error(ArgumentError, 'wrong number of arguments (given 1, expected 0)')
       end
     end
+
+    describe '.curry.to_proc' do
+      let(:func) do
+        def_function do
+          args { arg :x; arg :y; arg :z }
+          def call
+            [x,y,z]
+          end
+        end
+      end
+
+      it 'returns an instance of Proc' do
+        expect(func.curry.to_proc).to be_kind_of Proc
+      end
+
+      it 'acts like curry itself' do
+        block = func.curry.to_proc
+        expect(block.(1,2,3)).to eq [1,2,3]
+        expect(block.(1,2).(3)).to eq [1,2,3]
+        expect(block.(1).(2,3)).to eq [1,2,3]
+        expect(block.(1).(2).(3)).to eq [1,2,3]
+      end
+    end
   end
 end

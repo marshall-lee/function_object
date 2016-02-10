@@ -15,5 +15,9 @@ class FunctionObject
         @object.(*new_args)
       end
     end
+
+    def to_proc
+      method(:call).to_proc
+    end
   end
 end
