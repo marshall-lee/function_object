@@ -58,7 +58,7 @@ class Plus < FunctionObject
 end
 ```
 
-And mix these methods:
+Or mix these two styles (not recommended though):
 
 ```ruby
 class Plus < FunctionObject
