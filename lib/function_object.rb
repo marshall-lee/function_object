@@ -6,12 +6,10 @@ class FunctionObject
 
   class << self
     def arguments(*simple_args, &block)
-      arg_builder = ArgumentsBuilder.new
-      simple_args.each { |name| arg_builder.argument(name) }
-      arg_descs = arg_builder.build(&block)
-      macro = Macro.new(arg_descs)
-      self.class_eval { include macro.class_mixin }
-      singleton_class.class_eval { include macro.sclass_mixin }
+      arg_descs =
+        ArgumentsBuilder.new(simple_args).build(&block)
+
+      include_macro_mixin(Macro.new(arg_descs))
     end
     alias_method :args, :arguments
 
@@ -30,6 +28,13 @@ class FunctionObject
               "wrong number of arguments (given #{arity}, expected 0)"
       end
       self
+    end
+
+  private
+
+    def include_macro_mixin(macro)
+      self.class_eval { include macro.class_mixin }
+      singleton_class.class_eval { include macro.sclass_mixin }
     end
   end
 
