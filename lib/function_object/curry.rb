@@ -15,6 +15,7 @@ class FunctionObject
         @object.(*new_args)
       end
     end
+    alias [] call
 
     def to_proc
       method(:call).to_proc

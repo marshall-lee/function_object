@@ -48,6 +48,7 @@ describe FunctionObject do
   describe '.call' do
     it 'does something useful' do
       expect(plus.(1,2)).to eq 3
+      expect(plus[1,2]).to eq 3
     end
 
     it 'even with simple argument list' do
@@ -127,6 +128,7 @@ describe FunctionObject do
     context 'which does not implement instance method #call' do
       subject { void }
       it { should respond_to :call }
+      it { should respond_to :[] }
 
       describe '.call' do
         it 'should return nil' do
@@ -138,6 +140,7 @@ describe FunctionObject do
     context 'which implements instance method #call' do
       subject { constant }
       it { should respond_to :call }
+      it { should respond_to :[] }
 
       describe '.call' do
         it 'should return a value of calling instance method #call' do
@@ -153,6 +156,11 @@ describe FunctionObject do
 
     it 'returns a callable object' do
       should respond_to :call
+      should respond_to :[]
+    end
+
+    it 'works with []' do
+      expect(curried[1,2]).to eq 3
     end
 
     context 'with one argument bound' do
@@ -169,6 +177,10 @@ describe FunctionObject do
         it 'returns a value of function' do
           should eq 3
         end
+      end
+
+      it 'works with []' do
+        expect(one_plus[2]).to eq 3
       end
     end
 

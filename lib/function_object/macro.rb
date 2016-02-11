@@ -38,6 +38,7 @@ class FunctionObject::Macro
         def call(#{arg_list_stmt})
           new(#{arg_list_stmt}).call
         end
+        alias [] call
 
         def curry(arity = #{arity_range.first})
           unless (#{arity_range_condition}) === arity

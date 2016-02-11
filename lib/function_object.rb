@@ -18,6 +18,7 @@ class FunctionObject
     def call
       new.call
     end
+    alias [] call
 
     def to_proc
       method(:call).to_proc
