@@ -1,4 +1,4 @@
-class FunctionObject
+module FunctionObject
   class Curry
     def initialize(object, arity_range, args = [])
       @object = object

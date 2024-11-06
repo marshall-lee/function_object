@@ -3,10 +3,7 @@ require 'spec_helper'
 describe FunctionObject do
   let(:plus) do
     def_function do
-      args do
-        arg :a
-        arg :b
-      end
+      call_args :a, :b
 
       def call
         a + b

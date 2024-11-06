@@ -3,7 +3,10 @@ require 'function_object'
 
 module DefFunctionHelper
   def def_function(&block)
-    Class.new(FunctionObject, &block)
+    Class.new do
+      include FunctionObject
+      class_eval(&block)
+    end
   end
 end
 

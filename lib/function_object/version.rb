@@ -1,3 +1,3 @@
-class FunctionObject
+module FunctionObject
   VERSION = "0.1.0"
 end
